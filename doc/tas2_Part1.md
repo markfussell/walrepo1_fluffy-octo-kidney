@@ -174,4 +174,8 @@ class TicketServiceSpec extends Specification {
 }
 
 
+## The core algorithm
+
+See [tas2_Part2](tas2_Part2.md)
+
 

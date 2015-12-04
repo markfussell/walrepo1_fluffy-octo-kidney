@@ -1,7 +1,7 @@
 # walrepo1_fluffy-octo-kidney
 
 This is my working repository for the Ticket Service Homework that provides discovery, temporary hold, and final reservation
-of seats within a high-demand perofmrance venue.
+of seats within a high-demand performance venue.
 
 There is a diagram of the venue and some basic venue data, which provides the problem space description.  Additionally
 there is an interface describing the three main functions of the system:
