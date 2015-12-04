@@ -15,12 +15,16 @@ class TicketServiceSpec extends Specification {
     def cleanup() {
     }
 
-    def "test numSeatsAvailable"() {
+    def "test numSeatsAvailable with level #level"() {
         given:
-        def numberOfSeats = service.numSeatsAvailable()
+        def numberOfSeats = service.numSeatsAvailable(level)
 
-        expect: "Always 1"
-            numberOfSeats == 1
+        expect: "Matches the level"
+            numberOfSeats == level
+
+        where:
+        level || error
+        1     || null
     }
 
     def "test findAndHoldSeats with email #email"() {
