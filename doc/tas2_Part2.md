@@ -2,7 +2,7 @@
 
 The ticketServiceApp2 represents the first pass (there was no '1') through the ticketServiceApplication
 
-By the end of Part1 we had the core domain model, a mocked/simplified service interface, and
+By the end of [Part1](tas2_Part1.md) we had the core domain model, a mocked/simplified service interface, and
 a test against that interface.
 
 ## Core algorithm
