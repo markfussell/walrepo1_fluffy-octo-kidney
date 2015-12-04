@@ -172,7 +172,7 @@ class TicketServiceSpec extends Specification {
 
 
 }
-
+```
 
 ## The core algorithm
 
