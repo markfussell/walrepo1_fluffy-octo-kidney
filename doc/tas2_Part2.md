@@ -94,6 +94,8 @@ In a shopping sense, this degradation response is similar to opening new registe
 ## Make it so
 
 
+See [tas2_Part3](tas2_Part3.md)
+
 
 
    
