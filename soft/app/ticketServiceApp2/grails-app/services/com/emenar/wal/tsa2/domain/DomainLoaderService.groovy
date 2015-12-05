@@ -36,13 +36,13 @@ class DomainLoaderService {
             venueLevel.save();
             EventLevel eventLevel = new EventLevel(event: event, venueLevel: venueLevel, price: eachLevel.price);
             eventLevel.save();
-            eachLevel.rows.each{ eachRow ->
+            (1..eachLevel.rows).each{ eachRow ->
                 VenueRow venueRow = new VenueRow(level: venueLevel);
                 venueRow.save();
                 EventRow eventRow = new EventRow(level: eventLevel, venueRow: venueRow);
                 eventRow.save();
 
-                eachLevel.seats.each { eachSeat ->
+                (1..eachLevel.seats).each { eachSeat ->
                     VenueSeat venueSeat = new VenueSeat(row: venueRow, rowSeatNumber: eachSeat);
                     venueSeat.save();
                     EventSeat eventSeat = new EventSeat(row: eventRow, venueSeat: venueSeat);
