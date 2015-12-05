@@ -1,4 +1,4 @@
-package com.emenar.wal.tsa2
+package com.emenar.wal.tsa2.domain.model
 
 /**
  * A VenueSeat is a specific seat at a particular venue.  These are not
@@ -8,9 +8,7 @@ package com.emenar.wal.tsa2
  *
  */
 class VenueSeat {
-    int levelRow
     int rowSeatNumber
 
-    PerformingVenue venue
-    VenueLevel venueLevel
+    VenueRow row
 }

@@ -1,4 +1,4 @@
-package com.emenar.wal.tsa2
+package com.emenar.wal.tsa2.domain.model
 
 /**
  * A VenueLevel is a level and its associated information at a particular venue.
@@ -7,14 +7,11 @@ package com.emenar.wal.tsa2
  * default preferences of what customers would like about the level (front and center,
  * middle and center, etc.)
  */
-class VenueLevel {
+class VenueRow {
     static hasMany = [seats: VenueSeat]
 
-    PerformingVenue venue
+    VenueLevel level
 
-    int levelId
-    String levelName
-
-    int rows
-    int seatsInRow //Assuming all rows are equal in length
+    int rowId
+    int seatsInRow
 }

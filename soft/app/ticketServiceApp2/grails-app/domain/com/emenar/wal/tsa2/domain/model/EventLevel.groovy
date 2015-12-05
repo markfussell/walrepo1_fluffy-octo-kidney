@@ -1,4 +1,4 @@
-package com.emenar.wal.tsa2
+package com.emenar.wal.tsa2.domain.model
 
 /**
  * A EventLevel is a level at a particular performance and its
@@ -6,10 +6,10 @@ package com.emenar.wal.tsa2
  *
  */
 class EventLevel {
-    static hasMany = [seats: EventSeat]
+    static hasMany = [rows: EventRow]
 
     PerformanceEvent event
-    VenueLevel level
+    VenueLevel venueLevel
 
     int price
 }

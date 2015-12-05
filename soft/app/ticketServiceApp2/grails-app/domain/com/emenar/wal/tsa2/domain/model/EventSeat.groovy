@@ -1,5 +1,4 @@
-package com.emenar.wal.tsa2
-
+package com.emenar.wal.tsa2.domain.model
 /**
  * A EventSeat is a specific seat at a particular venue during a particular performance.
  * PerformanceSeats intersect a performance (a start and end time at a venue) with a seat at
@@ -19,7 +18,11 @@ class EventSeat {
         seatHold nullable: true
     }
 
-    PerformanceEvent event
+    EventSeat findSeatInRowOffset(int offset) {
+        return this;
+    }
+
+    EventRow row
     VenueSeat venueSeat
 
     SeatHold seatHold

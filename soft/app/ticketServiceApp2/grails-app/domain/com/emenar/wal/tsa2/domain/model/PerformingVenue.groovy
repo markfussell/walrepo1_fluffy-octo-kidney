@@ -1,4 +1,4 @@
-package com.emenar.wal.tsa2
+package com.emenar.wal.tsa2.domain.model
 
 /**
  * A PerformingVenue is a venue that this ticketing system can
@@ -10,6 +10,6 @@ package com.emenar.wal.tsa2
 class PerformingVenue {
     String venueName
 
-    static hasMany = [levels: VenueLevel, seats: VenueSeat]
+    static hasMany = [levels: VenueLevel]
 
 }
