@@ -1,5 +1,8 @@
 package com.emenar.wal.tsa2.domain.model
 
+import com.emenar.wal.tsa2.domain.EventBooking
+import groovy.transform.Synchronized
+
 /**
  * A PerformanceEvent is a performance at a particular venue and
  * includes the specifics of the performance.  It has
@@ -9,9 +12,23 @@ package com.emenar.wal.tsa2.domain.model
  * those seats within a limited amount of time.
  */
 class PerformanceEvent {
+    static transients = ['eventBooking']
+
     Date performanceDate
 
     PerformingVenue venue
+    transient EventBooking eventBooking
+
+    @Synchronized
+    EventBooking findBooking() {
+        if (eventBooking != null) return eventBooking;
+
+        eventBooking = new EventBooking(event: this);
+        eventBooking.prepare();
+
+        return eventBooking;
+    }
+
 
     static hasMany = [levels: EventLevel]
 }

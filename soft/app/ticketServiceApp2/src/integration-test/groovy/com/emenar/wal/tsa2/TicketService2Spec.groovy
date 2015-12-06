@@ -32,37 +32,62 @@ class TicketService2Spec extends Specification  {
             "Hi" == service.sayHi()
     }
 
-    @Ignore("do not need to test this right now")
-    void "test findPerformanceRaw"() {
-        expect:"findPerformanceRaw"
-            "Hi" == service.findPerformanceRaw()
-    }
-
-    @Ignore("do not need to test this right now")
-    def "test numSeatsAvailable with level #level"() {
+    def "test numSeatsAvailable with level #level is #seats"() {
         given:
         def numberOfSeats = service.numSeatsAvailable(level)
 
         expect: "Matches the level"
-        numberOfSeats == level
+        numberOfSeats == seats
 
         where:
-        level || error
-        1     || null
+        level | seats || error
+        0     | 6250  || null
+        1     | 1250  || null
+        2     | 2000  || null
+        3     | 1500  || null
+        4     | 1500  || null
     }
 
     @Ignore("do not need to test this right now")
-    def "test findAndHoldSeats with email #email"() {
+    def "test findAndHoldSeats for #email number #holdSeats holdLevel #holdLevel has level #level with seats #seats"() {
         given:
-        SeatHold hold = service.findAndHoldSeats(email, 2)
+        def result  = service.findAndHoldSeats(email, holdSeats, holdLevel, holdLevel)
+        def numberOfSeats = service.numSeatsAvailable(level)
+        SeatHold hold = result.seatHold;
 
-        expect: "The hold is always successful"
+        expect: "The hold object creation is always successful"
         hold.customerEmail == email
+        result.success == true
+        numberOfSeats == seats
 
         where:
-        email                      || error
-        'mark.fussell@emenar.com'  || null
+        email                      | holdSeats | holdLevel || level | seats | error
+        'mark.fussell@emenar.com'  | 10        | 0         || 1     | 1240  | null
     }
+
+    def "test find and release for #email number #holdSeats holdLevel #holdLevel has level #level with seats #seats"() {
+        given:
+        def result  = service.findAndHoldSeats(email, holdSeats, holdLevel, holdLevel)
+        SeatHold hold = result.seatHold;
+
+        expect: "The hold  is successful"
+        hold.customerEmail == email
+        result.success == true
+
+        when: "We release"
+        int holdId = result.seatHoldId;
+        def result2  = service.releaseHold(holdId, email)
+        def numberOfSeats = service.numSeatsAvailable(level)
+
+        then: "The release is successful"
+        result2.success == true
+        numberOfSeats == seats
+
+        where:
+        email                      | holdSeats | holdLevel || level | seats | error
+        'mark.fussell@emenar.com'  | 10        | 0         || 1     | 1250  | null
+    }
+
 
     @Ignore("do not need to test this right now")
     def "test reserveSeat with id #id email #email"() {

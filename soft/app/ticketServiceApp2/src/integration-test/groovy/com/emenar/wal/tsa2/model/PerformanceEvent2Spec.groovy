@@ -10,20 +10,19 @@ import spock.lang.Ignore
 import spock.lang.Specification
 
 /**
+ * This basically just confirms the bootstrap process is working properly
  */
 @Integration
-@Rollback
 class PerformanceEvent2Spec extends Specification  {
-    PerformanceEvent event
-
     def setup() {
-          event = PerformanceEvent.first();
     }
 
     def cleanup() {
     }
 
+    @Ignore("do not need to test this right now")
     void "test event exists"() {
+        PerformanceEvent event = PerformanceEvent.first();
         expect:"event exists"
             null != event
     }

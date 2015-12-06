@@ -17,10 +17,10 @@ class DomainLoaderService {
     }
 
     def levelArray = [
-                    [name: 'Orchestra', rows: 25, seats: 50, price: 100],
-                    [name: 'Main', rows: 20, seats: 100, price: 75],
-                    [name: 'Balcony 1', rows: 15, seats: 100, price: 50],
-                    [name: 'Balcony 2', rows: 15, seats: 100, price: 40]
+                    [id: 1, name: 'Orchestra', rows: 25, seats: 50, price: 100],
+                    [id: 2, name: 'Main', rows: 20, seats: 100, price: 75],
+                    [id: 3, name: 'Balcony 1', rows: 15, seats: 100, price: 50],
+                    [id: 4, name: 'Balcony 2', rows: 15, seats: 100, price: 40]
             ];
 
     def handleInit() {
@@ -31,7 +31,7 @@ class DomainLoaderService {
 
 
         levelArray.each { eachLevel ->
-            VenueLevel venueLevel = new VenueLevel(venue: venue);
+            VenueLevel venueLevel = new VenueLevel(venue: venue, levelId: eachLevel.id);
             venueLevel.levelName = eachLevel.name;
             venueLevel.save();
             EventLevel eventLevel = new EventLevel(event: event, venueLevel: venueLevel, price: eachLevel.price);

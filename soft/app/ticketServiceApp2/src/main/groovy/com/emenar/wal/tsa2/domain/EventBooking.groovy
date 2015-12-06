@@ -25,6 +25,8 @@ class EventBooking {
 
         //Create two cursors per row
         event.levels.each { EventLevel level ->
+            levelCursors.put(level.venueLevel.levelId, new ArrayList());
+
             level.rows.each {
                 EventRow row ->
                     SeatCursor cursorR = new SeatCursor(row: row, goRight: true);
@@ -48,6 +50,8 @@ class EventBooking {
 
         cursors.add(cursor)
 
+        levelCursors.get(cursor.row.level.venueLevel.levelId).add(cursor);
+
         //Ranking makes sure that no cursors are exactly the same
         rankToCursor[cursor.rank] = cursor;
 
@@ -55,35 +59,64 @@ class EventBooking {
         ranks.add(cursor.rank);
     }
 
-    boolean findASeatFor(SeatHold hold) {
+    boolean findSeatsFor(SeatHold hold) {
         int startLevel = hold.minLevel;
         int startIndex = 0;
         if (startLevel > 0) {
             startIndex = levelToFirstRank[startLevel];
         }
 
-        return findASeatFor_at(hold, startIndex);
+        return findSeatsFor_at(hold, startIndex);
     }
 
-    protected boolean findASeatFor_at(SeatHold hold, int index) {
+    protected boolean findSeatsFor_at(SeatHold hold, int index) {
         int rank = ranks[index];
         SeatCursor cursor = rankToCursor[rank];
+
+        if (cursor.isBeyondHold(hold)) return false;
+
         if (cursor.canSatisfyHold(hold)) {
             return true;
         }
 
         if (index++ < totalCursors) {
-            return findASeatFor_at(hold, index);
+            return findSeatsFor_at(hold, index);
         }
         return false;
     }
 
-    SeatReservation reserveHold(int holdId, String email) {
+    SeatReservation reserveHold(long holdId, String email) {
         return null;
     }
 
-    int countAvailableSeats(int level) {
+    boolean releaseHold(long holdId, String email) {
+        SeatHold seatHold = SeatHold.findById(holdId);
+        if (seatHold == null) return false;
 
+        if (seatHold.reservation != null) return false;
+
+        if (seatHold.seatCursor == null) return false;
+
+        if (seatHold.customerEmail != email) return false;
+
+        return seatHold.seatCursor.releaseHold(seatHold);
+    }
+
+
+    int countAvailableSeats(int level) {
+        int count = 0;
+
+        if (level > 0) {
+            levelCursors[level].each {SeatCursor eachCursor ->
+                count += eachCursor.remainingSeats;
+            }
+        } else {
+            cursors.each {SeatCursor eachCursor ->
+                count += eachCursor.remainingSeats;
+            }
+        }
+
+        return count;
     }
 
     //===============================================
@@ -94,16 +127,17 @@ class EventBooking {
 
 //    static hasMany = [holds: SeatHold, reservations: SeatReservation]
 
-    Map<Integer, SeatCursor> rankToCursor;
-    List<Integer> ranks;
+    Map<Integer, SeatCursor> rankToCursor = [:];
+    List<Integer> ranks = [];
     int totalCursors;
 
-    List<SeatCursor> cursors;
+    List<SeatCursor> cursors = [];
+    Map<Integer, List<SeatCursor>> levelCursors = [:];
 
     /**
      * For each of the level, what is the lowest rank index (e.g. Level-1 starts at 0, but Level-2 might start at 100)
      */
-    List<Integer> levelToFirstRank;
+    List<Integer> levelToFirstRank = [];
 
     //===============================================
     //===============================================
