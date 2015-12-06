@@ -464,6 +464,51 @@ Turning a Hold into a Reservation is simply creating and binding a reservation t
 needs to be delegated to the SeatCursor to again deal with the threading issue.
 
 
+## Part3 Test
+
+The framework of Grails is built on top of Spring/Gradle, so you can drive the whole system with pure gradle.
+At the point of this commit, the tests run clean using 'gradle test integrationTest'.
+
+```bash
+takakage:ticketServiceApp2 markfussell$ ./gradlew test integrationTest
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:compileTestJava UP-TO-DATE
+:compileTestGroovy UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test
+:compileIntegrationTestJava UP-TO-DATE
+:compileIntegrationTestGroovy UP-TO-DATE
+:processIntegrationTestResources UP-TO-DATE
+:integrationTestClasses UP-TO-DATE
+:integrationTest UP-TO-DATE
+:mergeTestReports
+
+BUILD SUCCESSFUL
+
+Total time: 13.21 secs
+```
+
+## Part3 ToDo
+
+There are a lot of things not yet done as of Part3:
+  
+  * The correct 'release' code is not present as of this commit
+  * Testing with a lot of requests, 
+  * Verifying that the seats allocated are correct
+  * Implementing the reserve correctly / completely
+  * etc.
+  
+But I believe the core of the proposed design solution and the supporting code / tests are complete enough
+to evaluate and discuss.
+
+I may work on Part4 when time allows (finishing this version), and Part5 would likely be a de-Grails of the
+solution to compare pure Spring / Java vs. the framework advantages of Grails.
+
+
 
 
   
